@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./imagenes/comprobado.png" type="image/x-icon">
+    <link rel="stylesheet" href="./style.css">
+    <title>To Do List</title>
+</head>
+<body>
+
+    <div class="container">
+        <img class="logo" src="./imagenes/LogoCESDE.png" alt="Logo Cesde">
+        <h1>To Do List</h1>
+        <p>Add your tasks and keep track of what needs to be done.</p>
+        <form action="#" id="userInput">
+            <input type="text" placeholder="Write your task here..." autofocus>
+            <input type="submit" value="+" id="addBtn"> 
+        </form>
+
+        <div id="list-container">
+            <div class="task-container" id="1">
+                <label>
+                    <input type="checkbox">
+                    Tasks
+                </label>
+                <img src="./imagenes/Delete.png" class="closeBtn" alt="Delete Task">
+            </div>
+        </div>
+
+        <button id="clearAllBtn">Clear All</button>
+
+        <div id="stats">
+            Tasks Completed: 0 | Tasks Remaining: 0
+        </div>
+
+    </div>
+
+</body>
+<script src="app.js"></script>
+</html>
