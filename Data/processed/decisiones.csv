@@ -1,0 +1,17 @@
+paso,columna,accion,filas_afectadas,justificacion
+convertir_numericos,asistencia_pct,quitar % y pasar '-' a nulo,502,Tenía 300 valores con '%' y 202 con '-' que impedían calcular promedios y cuartiles.
+convertir_numericos,horas_trabajo_semana,reemplazar '-' por nulo y convertir a número,2822,El guion representaba un faltante disfrazado en texto para estudiantes que no trabajan.
+convertir_numericos,distancia_km,reemplazar 999 por nulo,152,999 no es una distancia real sino un código para indicar que no había dato.
+unificar_categorias,programa,normalizar texto y unificar variantes,260,"Había variantes por mayúsculas, espacios o tildes que separaban una misma categoría en programa."
+unificar_categorias,jornada,normalizar texto y unificar variantes,485,"Había variantes por mayúsculas, espacios o tildes que separaban una misma categoría en jornada."
+unificar_categorias,genero,normalizar texto y unificar variantes,559,"Había variantes por mayúsculas, espacios o tildes que separaban una misma categoría en genero."
+unificar_categorias,ciudad_procedencia,normalizar texto y unificar variantes,542,"Había variantes por mayúsculas, espacios o tildes que separaban una misma categoría en ciudad_procedencia."
+convertir_fechas,fecha_matricula,unificar formatos AAAA-MM-DD y DD/MM/AAAA,3052,Las fechas venían mezcladas en dos formatos y se requería un tipo datetime uniforme.
+eliminar_duplicados,todas,eliminar filas duplicadas,150,Eran registros repetidos con el mismo id_estudiante que inflaban los conteos.
+tratar_faltantes,promedio_acumulado,eliminar filas,298,Una nota académica no se puede inventar sin distorsionar el análisis de rendimiento.
+tratar_faltantes,ciudad_procedencia,reemplazar nulos por 'Sin dato',96,Permite conservar la información académica del estudiante sin inventar su ciudad.
+tratar_faltantes,tipo_colegio,reemplazar nulos por 'Sin dato',145,Se conserva el estudiante en el análisis marcando explícitamente que falta ese dato.
+tratar_imposibles,promedio_acumulado,eliminar filas con promedio > 5,15,"Valores como 45, 62 y 78 están fuera de la escala de 0 a 5 y una nota no se debe inventar."
+tratar_imposibles,edad,reemplazar edades fuera de 15-60 por la mediana (22),12,Edades de 12 y 150 años son errores de registro; se usa la mediana porque no la afectan los extremos.
+tratar_imposibles,horas_trabajo_semana,asignar 0 horas cuando trabaja es 'no',2703,"Si el estudiante reporta que no trabaja, sus horas trabajadas por semana son 0."
+tratar_imposibles,horas_trabajo_semana,reemplazar valores > 100 por la mediana de quienes trabajan (24),29,200 horas supera las 168 horas de una semana; se reemplaza con la mediana de los que sí trabajan.
