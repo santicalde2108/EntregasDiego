@@ -15,6 +15,7 @@ def analizar(df):
     clientes_vip_vs_regular(df)
     metodo_pago_mas_usado(df)
     top5_clientes(df)
+    ventas_por_mes(df)
 
 
 def ingresos_por_categoria(df):
@@ -23,7 +24,10 @@ def ingresos_por_categoria(df):
     Pista: df.groupby("categoria")["total"].sum().sort_values(ascending=False)
     """
     # TODO 8: calcular e imprimir los ingresos por categoría y la categoría que más ingresa.
-    pass
+    ingresos = df.groupby("categoria")["total"].sum().sort_values(ascending=False)
+    print("\n1. Ingresos por categoría:")
+    print(ingresos)
+    print(f"Categoría con más ingresos: {ingresos.index[0]} (${ingresos.iloc[0]})")
 
 
 def canal_que_mas_vende(df):
@@ -32,7 +36,12 @@ def canal_que_mas_vende(df):
     Pista: agrupar por "canal" y usar .agg(ventas=("id_venta", "count"), ingresos=("total", "sum")).
     """
     # TODO 9: calcular e imprimir ventas e ingresos por canal.
-    pass
+    canales = df.groupby("canal").agg(
+        ventas=("id_venta", "count"),
+        ingresos=("total", "sum")
+    )
+    print("\n2. Ventas e ingresos por canal:")
+    print(canales)
 
 
 def clientes_vip_vs_regular(df):
@@ -43,7 +52,15 @@ def clientes_vip_vs_regular(df):
     y luego dividir compras y gasto entre el número de clientes.
     """
     # TODO 10: calcular e imprimir compras y gasto promedio por cliente según segmento_cliente.
-    pass
+    resumen = df.groupby("segmento_cliente").agg(
+        clientes=("id_cliente", "nunique"),
+        compras=("id_venta", "count"),
+        gasto_total=("total", "sum")
+    )
+    resumen["compras_por_cliente"] = resumen["compras"] / resumen["clientes"]
+    resumen["gasto_por_cliente"] = resumen["gasto_total"] / resumen["clientes"]
+    print("\n3. Comparación clientes VIP vs Regular:")
+    print(resumen)
 
 
 def metodo_pago_mas_usado(df):
@@ -52,7 +69,10 @@ def metodo_pago_mas_usado(df):
     Pista: df["metodo_pago"].value_counts()
     """
     # TODO 11: calcular e imprimir el conteo por método de pago y cuál es el más usado.
-    pass
+    conteo = df["metodo_pago"].value_counts()
+    print("\n4. Ventas por método de pago:")
+    print(conteo)
+    print(f"Método de pago más usado: {conteo.index[0]} ({conteo.iloc[0]} ventas)")
 
 
 def top5_clientes(df):
@@ -62,4 +82,23 @@ def top5_clientes(df):
     ordenar por compras (y por gasto como desempate) y tomar las primeras 5 con .head(5).
     """
     # TODO 12: calcular e imprimir el top 5.
-    pass
+    top5 = (
+        df.groupby(["id_cliente", "nombre_cliente"])
+        .agg(compras=("id_venta", "count"), gasto_total=("total", "sum"))
+        .sort_values(by=["compras", "gasto_total"], ascending=False)
+        .head(5)
+    )
+    print("\n5. Top 5 clientes con más compras:")
+    print(top5)
+
+
+def ventas_por_mes(df):
+    df_mes = df.copy()
+    df_mes["fecha_venta"] = pd.to_datetime(df_mes["fecha_venta"])
+    abril = df_mes.loc[df_mes["fecha_venta"].dt.month == 4]
+    mayo = df_mes.loc[df_mes["fecha_venta"].dt.month == 5]
+    unido = pd.concat([abril, mayo], ignore_index=True)
+    unido["mes"] = unido["fecha_venta"].dt.to_period("M")
+    por_mes = unido.groupby("mes")["total"].sum()
+    print("\nBonus - Ventas por mes:")
+    print(por_mes)

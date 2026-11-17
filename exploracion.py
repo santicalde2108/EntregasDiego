@@ -2,7 +2,21 @@ import pandas as pd
 
 from carga import cargar_datos
 
-_, ventas = cargar_datos()
+clientes, ventas = cargar_datos()
+
+print("--- EXPLORACIÓN VENTAS ---")
+print("Shape de ventas:", ventas.shape)
+print("\nInfo de ventas:")
+ventas.info()
+print("\nDescribe de ventas:")
+print(ventas.describe())
+
+print("\n--- EXPLORACIÓN CLIENTES ---")
+print("Shape de clientes:", clientes.shape)
+print("\nInfo de clientes:")
+clientes.info()
+print("\nDescribe de clientes:")
+print(clientes.describe())
 
 # Indexación: usamos id_venta como índice
 ventas = ventas.set_index("id_venta")
